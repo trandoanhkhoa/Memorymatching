@@ -30,7 +30,7 @@ namespace Memorymatching
 
                 //frm.Show();
             }
-            catch
+            catch(Exception ex)
             {
                 MessageBox.Show("Input sai. Vui lòng nhập lại!","Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
