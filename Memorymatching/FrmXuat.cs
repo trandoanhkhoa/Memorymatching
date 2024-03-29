@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,11 +21,13 @@ namespace Memorymatching
         public int SoCot {get; set; }
 
         int h = 80, margin = 5;
+        public List<string> images = new List<string>()
+            {"A.png", "B.png","C.png","D.png","E.png","G.png","H.png","I.png","K.png","L,png","M.png","N.png" };
+        List<string> result = new List<string>();
         public FrmXuat(int dong = 0 , int cot = 0)
         {
             //Dùng tên ảnh
-            List<string> images = new List<string>() 
-            {"A.png", "B.png","C.png","D.png","E.png","G.png","H.png","I.png","K.png","L,png","M.png","N.png" };
+            
             //Dùng để đánh dấu button
             List<int> dsso = new List<int>();
             
@@ -52,7 +56,9 @@ namespace Memorymatching
             {
                 for(int j=0;j<SoCot;j++)
                 {
+
                     btn = new Button();
+                    btn.Name = "btn" + (i * SoCot + j + 1).ToString();
                     btn.Width = h ; btn.Height = h;
                     //btn.Text = dsso[vitri].ToString();
                     btn.Left = margin * (j + 1) + h * j;
@@ -71,8 +77,58 @@ namespace Memorymatching
 
         private void btn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show((sender as Button).Text);
-            //throw new NotImplementedException();
+
+
+
+            string rootDirectory = "E:\\Democracy\\Memorymatching\\Memorymatching\\";
+            
+            //Lấy vị trí của ảnh 
+            int vtanh = int.Parse((sender as Button).Tag.ToString());
+            
+            //Hiển thị ảnh trong mảng images
+            string imagePath = Path.Combine(rootDirectory, "Images", images[vtanh]);
+            (sender as Button).Image = Image.FromFile(imagePath);
+            //Đúng (2 ảnh giống nhau)
+            string tmp = (sender as Button).Tag.ToString();
+            //Có ảnh trong mảng result
+            if (result.Count()>0)
+            {
+                int index = result.FindIndex(item => item.Equals(tmp));
+                //Không giống ảnh
+                if (index==-1)
+                {
+                    result.Add((sender as Button).Tag.ToString());
+                    result.Add((sender as Button).Name);
+                    Thread.Sleep(3000);
+                    //[0,"Tên button", 0, "Tên Button"]
+                }
+                //giống ảnh
+                else
+                {
+                    /*foreach(Button btn in this.Controls)
+                    {
+                        if(btn.Name == result[1] || btn.Name== result[3])
+                        {
+                            btn.Enabled= false;
+                        }    
+
+
+                    }    */
+                    //Xác định xem button nào sẽ bị enabled =false
+                }
+                result.Clear();
+            }
+            else 
+            {
+                result.Add((sender as Button).Tag.ToString());
+                result.Add((sender as Button).Name);
+            } 
+                
+            
+            
+
+
+            
         }
 
 
