@@ -70,6 +70,7 @@
             this.txtSodong.Name = "txtSodong";
             this.txtSodong.Size = new System.Drawing.Size(143, 22);
             this.txtSodong.TabIndex = 3;
+            this.txtSodong.Text = "2";
             // 
             // txtSocot
             // 
@@ -77,6 +78,7 @@
             this.txtSocot.Name = "txtSocot";
             this.txtSocot.Size = new System.Drawing.Size(143, 22);
             this.txtSocot.TabIndex = 4;
+            this.txtSocot.Text = "2";
             // 
             // Form1
             // 

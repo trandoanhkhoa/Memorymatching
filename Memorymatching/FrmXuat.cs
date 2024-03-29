@@ -24,6 +24,7 @@ namespace Memorymatching
         public List<string> images = new List<string>()
             {"A.png", "B.png","C.png","D.png","E.png","G.png","H.png","I.png","K.png","L,png","M.png","N.png" };
         List<string> result = new List<string>();
+        int CountEnd = 0;
         public FrmXuat(int dong = 0 , int cot = 0)
         {
             //Dùng tên ảnh
@@ -37,6 +38,7 @@ namespace Memorymatching
             SoDong = dong;
             SoCot = cot;
 
+            
             //Thiết lập đánh dấu số cho button
 
             int soluong = SoDong * SoCot;
@@ -88,9 +90,9 @@ namespace Memorymatching
             //Hiển thị ảnh trong mảng images
             string imagePath = Path.Combine(rootDirectory, "Images", images[vtanh]);
             (sender as Button).Image = Image.FromFile(imagePath);
-            //Đúng (2 ảnh giống nhau)
             string tmp = (sender as Button).Tag.ToString();
             //Có ảnh trong mảng result
+            
             if (result.Count()>0)
             {
                 int index = result.FindIndex(item => item.Equals(tmp));
@@ -99,36 +101,71 @@ namespace Memorymatching
                 {
                     result.Add((sender as Button).Tag.ToString());
                     result.Add((sender as Button).Name);
-                    Thread.Sleep(3000);
-                    //[0,"Tên button", 0, "Tên Button"]
+
+                    // Khởi tạo Timer
+                    System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+                    timer.Interval = 500; // Đặt khoảng thời gian là 2 giây
+
+                    // Sự kiện Tick cho Timer
+                    timer.Tick += (timerSender, ev) =>
+                    {
+                        // Logic khi Timer kết thúc
+                        if(result.Count()>0)
+                        {
+                            foreach (Button btn in this.Controls)
+                            {
+                                if (btn.Name == result[1] || btn.Name == result[3])
+                                {
+                                    btn.Image = null; // hoặc btn.Enabled = false tùy vào yêu cầu cụ thể của bạn
+                                }
+                            }
+                        }    
+                        
+
+                        // Dừng và xóa Timer sau khi đã sử dụng
+                        timer.Stop();
+                        
+                        timer.Dispose();
+
+                        // Xóa danh sách kết quả sau khi đã xử lý xong
+                        result.Clear();
+                    };
+                    // Khởi động Timer ngay sau khi hiển thị ảnh
+                    timer.Start();
+                    
                 }
                 //giống ảnh
                 else
                 {
-                    /*foreach(Button btn in this.Controls)
+                    result.Add((sender as Button).Tag.ToString());
+                    result.Add((sender as Button).Name);
+                    foreach (Button btn in this.Controls)
                     {
                         if(btn.Name == result[1] || btn.Name== result[3])
                         {
                             btn.Enabled= false;
                         }    
+                    }
+                    result.Clear();
+                    CountEnd++;
+                    if(CountEnd==(SoDong*SoCot)/2)
+                    {
+                        MessageBox.Show("Bạn đã chiến thắng");
+                    }    
 
-
-                    }    */
-                    //Xác định xem button nào sẽ bị enabled =false
                 }
-                result.Clear();
+                
+
             }
             else 
             {
                 result.Add((sender as Button).Tag.ToString());
                 result.Add((sender as Button).Name);
-            } 
-                
-            
-            
+            }
 
 
-            
+
+
         }
 
 

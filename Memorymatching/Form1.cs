@@ -24,6 +24,12 @@ namespace Memorymatching
                 int dong = int.Parse(txtSodong.Text);
                 int cot = int.Parse(txtSocot.Text);
                 //Tạo ra form xuất
+                if((dong*cot)%2!=0)
+                {
+                    MessageBox.Show("Dòng x cột phải là số chẳn. Vui lòng nhập lại !!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }    
+
                 FrmXuat frm = new FrmXuat(dong, cot);
                 //Hiển thị form lên bằng phương thức ShowDialog
                 frm.ShowDialog();
